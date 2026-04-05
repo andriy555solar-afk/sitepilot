@@ -1,4 +1,4 @@
-﻿import { Module, ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
+import { Module, ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
@@ -16,6 +16,7 @@ import { ProjectMember } from './modules/projects/project-member.entity';
 
 @Module({
   imports: [
+    BillingModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [appConfig, dbConfig, jwtConfig, throttleConfig],

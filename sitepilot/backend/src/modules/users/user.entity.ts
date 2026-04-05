@@ -1,12 +1,18 @@
-﻿import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum UserStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
-  BANNED = 'BANNED',
+  PENDING_VERIFICATION = 'PENDING_VERIFICATION',
 }
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -15,39 +21,33 @@ export class User {
   email: string;
 
   @Column()
-  passwordHash: string;
-
-  @Column({ nullable: true })
-  name: string;
-
-  @Column({ type: 'text', nullable: true })
-  avatarUrl: string;
+  password: string;
 
   @Column({
     type: 'enum',
     enum: UserStatus,
-    default: UserStatus.ACTIVE,
+    default: UserStatus.PENDING_VERIFICATION,
   })
   status: UserStatus;
 
-  @Column({ default: false })
-  emailVerified: boolean;
+  @Column({ nullable: true })
+  resetPasswordToken?: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  resetPasswordExpires?: Date;
 
   @Column({ nullable: true })
-  resetPasswordToken: string;
+  emailVerifyToken?: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  emailVerifyExpires?: Date;
 
   @Column({ nullable: true })
-  resetPasswordExpires: Date;
-
-  @Column({ nullable: true })
-  emailVerifyToken: string;
-
-  @Column({ nullable: true })
-  emailVerifyExpires: Date;
-
-  @Column({ nullable: true })
-  lastLoginAt: Date;
+  lastLoginIp?: string;
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

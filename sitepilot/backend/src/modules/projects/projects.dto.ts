@@ -4,7 +4,7 @@ import {
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { ProjectType, ProjectStatus } from './project.entity';
+import { ProjectStatus } from './project.entity';
 import { UserRole } from './project-member.entity';
 
 // ── Create ────────────────────────────────────────────────────────────────────
@@ -32,7 +32,7 @@ export class CreateProjectDto {
   @MaxLength(255)
   domain?: string;
 
-  @ApiPropertyOptional({ enum: ProjectType, default: ProjectType.SERVICE_SITE })
+  @ApiPropertyOptional({ enum: default: ProjectType.SERVICE_SITE })
   @IsOptional()
   @IsEnum(ProjectType)
   projectType?: ProjectType;
@@ -133,3 +133,4 @@ export class PaginatedProjectsDto {
   @ApiProperty() limit: number;
   @ApiProperty() totalPages: number;
 }
+

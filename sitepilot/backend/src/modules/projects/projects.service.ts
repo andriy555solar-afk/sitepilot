@@ -21,7 +21,8 @@ export class ProjectsService {
 
   findAll(user: User) {
     return this.repo.find({
-      where: { owner: { id: user.userId } },
+      where: { owner: { id: user.userId ?? user.id } },
     });
   }
 }
+

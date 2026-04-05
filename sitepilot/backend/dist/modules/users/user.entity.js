@@ -15,7 +15,7 @@ var UserStatus;
 (function (UserStatus) {
     UserStatus["ACTIVE"] = "ACTIVE";
     UserStatus["INACTIVE"] = "INACTIVE";
-    UserStatus["BANNED"] = "BANNED";
+    UserStatus["PENDING_VERIFICATION"] = "PENDING_VERIFICATION";
 })(UserStatus || (exports.UserStatus = UserStatus = {}));
 let User = class User {
 };
@@ -31,33 +31,21 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], User.prototype, "passwordHash", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "name", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: 'text', nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "avatarUrl", void 0);
+], User.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: 'enum',
         enum: UserStatus,
-        default: UserStatus.ACTIVE,
+        default: UserStatus.PENDING_VERIFICATION,
     }),
     __metadata("design:type", String)
 ], User.prototype, "status", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ default: false }),
-    __metadata("design:type", Boolean)
-], User.prototype, "emailVerified", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "resetPasswordToken", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ type: 'timestamp', nullable: true }),
     __metadata("design:type", Date)
 ], User.prototype, "resetPasswordExpires", void 0);
 __decorate([
@@ -65,18 +53,22 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "emailVerifyToken", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ type: 'timestamp', nullable: true }),
     __metadata("design:type", Date)
 ], User.prototype, "emailVerifyExpires", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Date)
-], User.prototype, "lastLoginAt", void 0);
+    __metadata("design:type", String)
+], User.prototype, "lastLoginIp", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], User.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], User.prototype, "updatedAt", void 0);
 exports.User = User = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)('users')
 ], User);
 //# sourceMappingURL=user.entity.js.map

@@ -1,23 +1,14 @@
 import { AuthService } from './auth.service';
-import { RegisterDto, LoginDto, RefreshTokenDto, ForgotPasswordDto, ResetPasswordDto, ChangePasswordDto, AuthResponseDto, AuthTokensDto } from './auth.dto';
-import { RequestUser } from './jwt.strategy';
+import { JwtService } from '@nestjs/jwt';
 export declare class AuthController {
-    private readonly authService;
-    constructor(authService: AuthService);
-    register(dto: RegisterDto): Promise<AuthResponseDto>;
-    login(dto: LoginDto, ip: string): Promise<AuthResponseDto>;
-    refresh(dto: RefreshTokenDto): Promise<AuthTokensDto>;
-    forgotPassword(dto: ForgotPasswordDto): Promise<{
+    private authService;
+    private jwtService;
+    constructor(authService: AuthService, jwtService: JwtService);
+    register(body: any): Promise<{
         message: string;
+        user: import("../users/user.entity").User;
     }>;
-    resetPassword(dto: ResetPasswordDto): Promise<{
-        message: string;
+    login(body: any): Promise<{
+        access_token: string;
     }>;
-    verifyEmail(token: string): Promise<{
-        message: string;
-    }>;
-    changePassword(user: RequestUser, dto: ChangePasswordDto): Promise<{
-        message: string;
-    }>;
-    me(user: RequestUser): Promise<RequestUser>;
 }

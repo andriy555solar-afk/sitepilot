@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaginatedProjectsDto = exports.ProjectResponseDto = exports.UpdateMemberRoleDto = exports.AddMemberDto = exports.ListProjectsDto = exports.UpdateProjectDto = exports.CreateProjectDto = void 0;
 const class_validator_1 = require("class-validator");
@@ -47,7 +48,7 @@ __decorate([
     (0, swagger_1.ApiPropertyOptional)({ enum: project_entity_1.ProjectType, default: project_entity_1.ProjectType.SERVICE_SITE }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(project_entity_1.ProjectType),
-    __metadata("design:type", String)
+    __metadata("design:type", typeof (_a = typeof project_entity_1.ProjectType !== "undefined" && project_entity_1.ProjectType) === "function" ? _a : Object)
 ], CreateProjectDto.prototype, "projectType", void 0);
 __decorate([
     (0, swagger_1.ApiPropertyOptional)(),
@@ -63,7 +64,7 @@ __decorate([
     (0, swagger_1.ApiPropertyOptional)({ enum: project_entity_1.ProjectStatus }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(project_entity_1.ProjectStatus),
-    __metadata("design:type", String)
+    __metadata("design:type", typeof (_b = typeof project_entity_1.ProjectStatus !== "undefined" && project_entity_1.ProjectStatus) === "function" ? _b : Object)
 ], UpdateProjectDto.prototype, "status", void 0);
 __decorate([
     (0, swagger_1.ApiPropertyOptional)(),
@@ -86,13 +87,13 @@ __decorate([
     (0, swagger_1.ApiPropertyOptional)({ enum: project_entity_1.ProjectStatus }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(project_entity_1.ProjectStatus),
-    __metadata("design:type", String)
+    __metadata("design:type", typeof (_c = typeof project_entity_1.ProjectStatus !== "undefined" && project_entity_1.ProjectStatus) === "function" ? _c : Object)
 ], ListProjectsDto.prototype, "status", void 0);
 __decorate([
     (0, swagger_1.ApiPropertyOptional)({ enum: project_entity_1.ProjectType }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(project_entity_1.ProjectType),
-    __metadata("design:type", String)
+    __metadata("design:type", typeof (_d = typeof project_entity_1.ProjectType !== "undefined" && project_entity_1.ProjectType) === "function" ? _d : Object)
 ], ListProjectsDto.prototype, "projectType", void 0);
 __decorate([
     (0, swagger_1.ApiPropertyOptional)({ default: 1 }),
@@ -154,11 +155,11 @@ __decorate([
 ], ProjectResponseDto.prototype, "domain", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ enum: project_entity_1.ProjectType }),
-    __metadata("design:type", String)
+    __metadata("design:type", typeof (_e = typeof project_entity_1.ProjectType !== "undefined" && project_entity_1.ProjectType) === "function" ? _e : Object)
 ], ProjectResponseDto.prototype, "projectType", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ enum: project_entity_1.ProjectStatus }),
-    __metadata("design:type", String)
+    __metadata("design:type", typeof (_f = typeof project_entity_1.ProjectStatus !== "undefined" && project_entity_1.ProjectStatus) === "function" ? _f : Object)
 ], ProjectResponseDto.prototype, "status", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ nullable: true }),

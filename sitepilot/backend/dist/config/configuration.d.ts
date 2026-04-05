@@ -1,19 +1,20 @@
 export declare const appConfig: () => {
-    port: number;
+    appPort: number;
     nodeEnv: string;
 };
 export declare const dbConfig: () => {
-    host: string;
-    port: number;
-    username: string;
-    password: string;
-    database: string;
+    databaseUrl: string;
+    dbHost: string;
+    dbPort: number;
+    dbUsername: string;
+    dbPassword: string;
+    dbName: string;
 };
 export declare const jwtConfig: () => {
-    secret: string;
-    expiresIn: string;
+    jwtSecret: string;
+    jwtExpiresIn: string;
 };
 export declare const throttleConfig: () => {
-    ttl: number;
-    limit: number;
+    throttleTtl: number;
+    throttleLimit: number;
 };

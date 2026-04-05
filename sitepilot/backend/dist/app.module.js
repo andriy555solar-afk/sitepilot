@@ -12,8 +12,8 @@ const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
 const throttler_1 = require("@nestjs/throttler");
 const core_1 = require("@nestjs/core");
+const configuration_1 = require("./config/configuration");
 const http_exception_filter_1 = require("./modules/common/filters/http-exception.filter");
-const guards_1 = require("./modules/auth/guards");
 const auth_module_1 = require("./modules/auth/auth.module");
 const projects_module_1 = require("./modules/projects/projects.module");
 const user_entity_1 = require("./modules/users/user.entity");
@@ -25,26 +25,46 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            BillingModule,
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
+                load: [configuration_1.appConfig, configuration_1.dbConfig, configuration_1.jwtConfig, configuration_1.throttleConfig],
             }),
-            typeorm_1.TypeOrmModule.forRoot({
-                type: 'postgres',
-                host: 'localhost',
-                port: 5432,
-                username: 'postgres',
-                password: 'postgres',
-                database: 'sitepilot',
-                entities: [user_entity_1.User, project_entity_1.Project, project_member_entity_1.ProjectMember],
-                synchronize: true,
+            typeorm_1.TypeOrmModule.forRootAsync({
+                inject: [config_1.ConfigService],
+                useFactory: (config) => {
+                    const dbUrl = config.get('databaseUrl');
+                    if (dbUrl) {
+                        return {
+                            type: 'postgres',
+                            url: dbUrl,
+                            ssl: { rejectUnauthorized: false },
+                            entities: [user_entity_1.User, project_entity_1.Project, project_member_entity_1.ProjectMember],
+                            synchronize: false,
+                        };
+                    }
+                    return {
+                        type: 'postgres',
+                        host: config.get('dbHost'),
+                        port: config.get('dbPort'),
+                        username: config.get('dbUsername'),
+                        password: config.get('dbPassword'),
+                        database: config.get('dbName'),
+                        entities: [user_entity_1.User, project_entity_1.Project, project_member_entity_1.ProjectMember],
+                        synchronize: false,
+                    };
+                },
             }),
-            throttler_1.ThrottlerModule.forRoot({
-                throttlers: [
-                    {
-                        ttl: 60,
-                        limit: 10,
-                    },
-                ],
+            throttler_1.ThrottlerModule.forRootAsync({
+                inject: [config_1.ConfigService],
+                useFactory: (config) => ({
+                    throttlers: [
+                        {
+                            ttl: config.get('throttleTtl') || 60,
+                            limit: config.get('throttleLimit') || 10,
+                        },
+                    ],
+                }),
             }),
             auth_module_1.AuthModule,
             projects_module_1.ProjectsModule,
@@ -52,11 +72,11 @@ exports.AppModule = AppModule = __decorate([
         providers: [
             {
                 provide: core_1.APP_PIPE,
-                useValue: new common_1.ValidationPipe({
-                    whitelist: true,
-                    transform: true,
-                    forbidNonWhitelisted: true,
-                }),
+                useValue: new common_1.ValidationPipe({ whitelist: true, transform: true }),
+            },
+            {
+                provide: core_1.APP_GUARD,
+                useClass: throttler_1.ThrottlerGuard,
             },
             {
                 provide: core_1.APP_INTERCEPTOR,
@@ -65,10 +85,6 @@ exports.AppModule = AppModule = __decorate([
             {
                 provide: core_1.APP_FILTER,
                 useClass: http_exception_filter_1.GlobalExceptionFilter,
-            },
-            {
-                provide: core_1.APP_GUARD,
-                useClass: guards_1.JwtAuthGuard,
             },
         ],
     })
